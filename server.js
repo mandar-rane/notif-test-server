@@ -9,14 +9,12 @@ app.use(bodyParser.json());
 
 const expo = new Expo();
 
-app.post('/send-notification', (req, res) => {
-  const { to, title, body } = req.body;
+app.post('/send-notification', (req, res) => {                   //this function/route should be called after placing order using Notification Token of the shop owner.
+  const { to, title, body } = req.body;                          //"to" is Notification Token
 
- 
   if (!Expo.isExpoPushToken(to)) {
     return res.status(400).send({ error: 'Invalid Expo push token' });
   }
-
 
   const message = [
     {
@@ -25,7 +23,6 @@ app.post('/send-notification', (req, res) => {
       body
     },
   ];
-
 
   expo.sendPushNotificationsAsync(message)
     .then((receipts) => {
